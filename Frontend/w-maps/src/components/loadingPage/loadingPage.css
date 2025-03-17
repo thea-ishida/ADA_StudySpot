@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+.loadPageCont{
+    display:flex;
+    background-color: azure;
+    flex-direction: column;
+    gap: 6px;
+
+}
+
+.ex{
+    background-color: blue;
+    display: flex;
+
+}
