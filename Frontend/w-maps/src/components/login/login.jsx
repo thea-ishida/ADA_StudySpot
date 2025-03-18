@@ -1,25 +1,56 @@
-import React from "react";
-
-
-
-// const must have capital line
-// div used for const component 
-// <> </> can be also used as a wrapper 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./login.css";
 
 const Login = () => {
-    return (
-        <div className="loginContainer">
-            <form>
-                <input type="">
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-                </input>
-            </form> 
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        </div>
-    )
-}
+    //  (Replace with API call)
+    if (email === "user@example.com" && password === "password123") {
+      console.log("Login successful!");
 
+      // Save authentication info
+      localStorage.setItem("isAuthenticated", "true");
 
+      //  Navigate to Loading Screen first
+      navigate("/loading");
+    } else {
+      alert("Invalid email or password");
+    }
+  };
 
-// export default use in other js files, can only return one thing
+  return (
+    <div className="login-container">
+      <div className="login-content">
+        <form onSubmit={handleSubmit} className="login-form">
+          <input
+            type="email"
+            className="login-input"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            className="login-input"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" className="login-button">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default Login;
