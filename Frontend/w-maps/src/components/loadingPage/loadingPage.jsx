@@ -1,45 +1,26 @@
-import React, {useState} from "react";
-import "./loadingPage.css"
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
+import "./loadingPage.css";
+import logo from "/assets/logo.png"; // import the logo component 
 
-
-// 100vh = view height (takes up 100% of the view height)
-// 100 vw = view width
 const LoadingPage = () => {
-
     const navigate = useNavigate();
 
-    const navNextPage = () => {
-        navigate('/login', {replace: false})
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            navigate("/login", { replace: false });
+        }, 4000); // Navigate after 3 seconds
 
-    }
+        return () => clearTimeout(timer);
+    }, [navigate]);
 
-
-    const [allow, setAllow] = useState(false);
     return (
-        <div className="grid grid-cols-1 grid-rows-4">
-            
-            <div>
-                <h1>Enable Location</h1>
+        <div className="loadingPage">
+            <div className="logoContainer">
+                <img src={logo} alt="Logo" className="logo" />
             </div>
-            <input
-            type="text"
-
-            >
-            </input>
-            <div>
-                <p> hello </p>
-                <div>
-                    <button onClick={navNextPage}>
-                        allow
-                    </button>
-                
-                </div>
-            </div>
-            LoadingPage
         </div>
-    )
-}
-
+    );
+};
 
 export default LoadingPage;

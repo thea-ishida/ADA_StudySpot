@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
-.loadPageCont{
-    display:flex;
-    background-color: azure;
-    flex-direction: column;
-    gap: 6px;
-
+.loadingPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to bottom, #6a5acd, #8a52fc);
 }
 
-.ex{
-    background-color: blue;
+.logoContainer {
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.logo {
+    width: 100px;
+    height: 100px;
 }
