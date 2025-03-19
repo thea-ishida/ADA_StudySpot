@@ -32,6 +32,8 @@ axios.post('url', {data in json format}). then (response => logic for response).
 // fetch (localhost/5000/api/lib/getLib)
 // wait for res and store it somewhere
 // async: make function asynchronous, should always have a wait keyword
+
+// get library information
 router.get('/getLib', (req, res) => { // req and res is like a small lambda function
   const name = 'SELECT * FROM library';
   // db.query (ur actual query, (err, result) => { logic });
@@ -48,6 +50,7 @@ router.get('/getLib', (req, res) => { // req and res is like a small lambda func
 
 })
 
+// add new library
 router.post('/addLib', (req, res) => {
   const {libName, libID} = req.body // in the req.body: header, body contains the data;   jsonwhatever.attribute -> returns the value
   const newLib = 'INSERT INTO library (libraryID, libraryName) VALUES (?, ?)'
@@ -66,6 +69,82 @@ router.post('/addLib', (req, res) => {
     })
   })
 })
+
+// delete library
+router.delete('/deleteLib', (req, res) => {
+  const {libID} = req.body
+  const deleted = 'DELETE FROM library WHERE libraryID = ?'
+  db.query(deleted, [libID], (error, result) => {
+    if(error){
+      return res.status(500).json({error: "Error in deleting library"})
+    }
+    if(result.affectedRows > 0){
+      return res.status(200).json(result)
+    }
+  })
+})
+
+// get library capacity within a range
+router.get('/getLibCapacity', (req, res) => {
+  const {min, max} = req.query;
+  if (!min || !max) {
+    return res.status(400).json({ error: "Both min and max capacity values are required" });
+  }
+  const capacity = 'SELECT * FROM library WHERE capacity BETWEEN ? AND ?'
+  db.query(capacity, [min, max], (error, result) => {
+    if(result.affectedRows > 0){
+      return res.status(200).json(result)
+    }
+    })
+  
+})
+// get least crowded library (unsure)
+router.get('/leastCrowded', (req, res) => {
+  const {libID, libName, libAddress, libCapacity, user_id} = req.body;
+  if(!libID || !libName || !libAddress|| !libCapacity || !user_id){
+    return res.status(400).json({error: "all information require"})
+  }
+  const crowded = `
+    SELECT l.library_id, l.address, l.capacity, l.library_name
+           COUNT(u.user_id) AS current_users,
+           (l.capacity - COUNT(u.user_id)) AS available_space
+    FROM libraries l
+    LEFT JOIN users u ON l.library_id = u.library_ID
+    WHERE u.RespondTime >= NOW() - INTERVAL 30 MINUTE  -- Only recent responses
+    GROUP BY l.library_id
+    ORDER BY available_space DESC
+    LIMIT 1;
+  `;
+
+  db.query(crowded, (error, results) => {
+    if (error){
+      return res.status(500).json({ error: "Failed to get the least crowded library" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "No library data available" });
+    }
+    else{
+      return res.status(200).json(results); 
+    }
+  });
+});
+
+
+// update library
+router.put('/updateLib', (req, res) => {
+  const {libID, libName} = req.body
+  const updateLib = 'UPDATE library SET libID = ?, libName = ? WHERE libID = ?'
+  db.query(updateLib, [libID, libName], (error, result) => {
+    if(error){
+      return res.status(500).json({error: "Error in updating library"})
+    }
+    if(result.affectedRows > 0){
+      return res.status(200).json(result)
+    }
+  })
+})
+
+
 
 
 /*
