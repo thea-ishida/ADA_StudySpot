@@ -1,0 +1,42 @@
+
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "D. B. Weldon Library",
+        "address": "1151 Richmond St, London, ON N6A 3K7, Canada",
+        "coordinates": [43.00803, -81.27543]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [43.00803, -81.27543]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Law Library",
+        "address": "1151 Richmond St, London, ON N6A 3K7, Canada",
+        "coordinates": [43.00643, -81.27633]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [43.00643, -81.27633]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Allyn & Betty Taylor Library",
+        "address": "1151 Richmond St, London, ON N6A 3K7, Canada",
+        "coordinates": [43.01115, -81.27335]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [43.01115, -81.27335]
+      }
+    }
+  ]
+}
